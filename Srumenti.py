@@ -1,9 +1,9 @@
 class Strumenti:
-    def __init__(self, codice, tipo, marca, anno, valore):
+    def __init__(self, codice, tipo, marca, anno_acquisto, valore):
         self.codice = codice
         self.tipo = tipo
         self.marca = marca
-        self.anno = anno
+        self.anno = anno_acquisto
         self.valore = valore
 
     def __str__(self):
