@@ -70,7 +70,7 @@ class DepositoStrumenti:
         return prestito
 
     def termina_prestito(self, id_prestito):
-        """Termina un prestito in atto"""
+        """Terminare un prestito in atto"""
         prestito_da_rimuovere = None
         for p in self.prestiti:
             if p.id_prestito == id_prestito:
