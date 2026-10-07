@@ -1,6 +1,6 @@
 import csv
-from Strumento import Strumento
-
+from strumento import Strumento
+from prestito import Prestito
 
 class DepositoStrumenti:
     def __init__(self, nome, responsabile):
@@ -50,12 +50,33 @@ class DepositoStrumenti:
 
     def strumenti_ordinati_per_marca(self):
         """Ordina gli strumenti per marca in ordine alfabetico"""
-        # TODO
+        #lista.sort(key=lambda x: x.attributo)
+        ordinati=sorted(self.strumenti, key=lambda x: x.marca)
+        #self.strumenti.sort(key=lambda x:x.marca)
+        return ordinati
 
     def nuovo_prestito(self, data, id_strumento, cognome_allievo):
         """Crea un nuovo prestito"""
-        # TODO
+        lista_strumenti=self.strumenti
+        if id_strumento not in lista_strumenti:
+            raise Exception(f"Errore: Lo strumento non esiste nel deposito.")
+        for p in self.prestiti:
+            if p.id_strumento == id_strumento:
+                raise Exception(f"Errore: Lo strumento è già stato prestato.")
+        nuovo_id_prestito = f"P{self.prestito_id_succ}"
+        self.prestito_id_succ += 1
+        prestito = Prestito(nuovo_id_prestito, data, id_strumento, cognome_allievo)
+        self.prestiti.append(prestito)
+        return prestito
 
     def termina_prestito(self, id_prestito):
         """Termina un prestito in atto"""
-        # TODO
+        prestito_da_rimuovere = None
+        for p in self.prestiti:
+            if p.id_prestito == id_prestito:
+                prestito_da_rimuovere = p
+                break
+        if prestito_da_rimuovere is None:
+            raise Exception(f"Errore: Non è stato trovato alcun prestito.")
+
+        self.prestiti.remove(prestito_da_rimuovere)
