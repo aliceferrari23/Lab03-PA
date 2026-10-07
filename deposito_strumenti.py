@@ -1,15 +1,52 @@
+import csv
+from Strumento import Strumento
+
+
 class DepositoStrumenti:
     def __init__(self, nome, responsabile):
         """Inizializza gli attributi e le strutture dati"""
-        # TODO
+        self.nome=nome
+        self.responsabile=responsabile
+        self.strumenti=[]
+        self.prestiti=[]
+        self.strumento_id_succ=1
+        self.prestito_id_succ=1
+
+    @property
+    def responsabile(self):
+       return self.responsabile
+
+    @responsabile.setter
+    def responsabile(self, responsabile):
+        self.responsabile=responsabile
+
 
     def carica_file_strumenti(self, file_path):
         """Carica gli strumenti dal file"""
-        # TODO
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            reader = csv.reader(file)
+            for riga in reader:
+                if len(riga) == 5:
+                    id_str, tipo, marca, anno, val = riga
+                    strumento = Strumento(id_str, tipo, marca, anno, val)
+                    self.strumenti.append(strumento)
+                    try:
+                        num_id = int(id_str[1])
+                        if num_id >= self.strumento_id_succ:
+                            self.strumento_id_succ = num_id + 1
+                    except ValueError:
+                        pass
+                    except FileNotFoundError:
+                        raise FileNotFoundError(f"Errore: il file non è stato trovato.")
 
     def aggiungi_strumento(self, tipo, marca, anno_acquisto, valore):
         """Aggiunge uno strumento nel deposito: aggiunge solo nel sistema e non aggiorna il file"""
-        # TODO
+        nuovo_id = f"S{self.strumento_id_succ}"
+        self.strumento_id_succ += 1
+
+        nuovo_strumento = Strumento(nuovo_id, tipo, marca, anno_acquisto, valore)
+        self.strumenti.append(nuovo_strumento)
+        return nuovo_strumento
 
     def strumenti_ordinati_per_marca(self):
         """Ordina gli strumenti per marca in ordine alfabetico"""
