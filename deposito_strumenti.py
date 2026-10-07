@@ -6,7 +6,7 @@ class DepositoStrumenti:
     def __init__(self, nome, responsabile):
         """Inizializza gli attributi e le strutture dati"""
         self.nome=nome
-        self.responsabile=responsabile
+        self._responsabile=responsabile
         self.strumenti=[]
         self.prestiti=[]
         self.strumento_id_succ=1
@@ -14,11 +14,11 @@ class DepositoStrumenti:
 
     @property
     def responsabile(self):
-       return self.responsabile
+       return self._responsabile
 
     @responsabile.setter
     def responsabile(self, responsabile):
-        self.responsabile=responsabile
+        self._responsabile=responsabile
 
 
     def carica_file_strumenti(self, file_path):
@@ -37,7 +37,7 @@ class DepositoStrumenti:
                     except ValueError:
                         pass
                     except FileNotFoundError:
-                        raise FileNotFoundError(f"Errore: il file non è stato trovato.")
+                        return None
 
     def aggiungi_strumento(self, tipo, marca, anno_acquisto, valore):
         """Aggiunge uno strumento nel deposito: aggiunge solo nel sistema e non aggiorna il file"""
@@ -57,9 +57,9 @@ class DepositoStrumenti:
 
     def nuovo_prestito(self, data, id_strumento, cognome_allievo):
         """Crea un nuovo prestito"""
-        lista_strumenti=self.strumenti
-        if id_strumento not in lista_strumenti:
-            raise Exception(f"Errore: Lo strumento non esiste nel deposito.")
+        for s in self.strumenti:
+         if s.id_strumento not in self.strumenti:
+                raise Exception(f"Errore: Lo strumento non esiste nel deposito.")
         for p in self.prestiti:
             if p.id_strumento == id_strumento:
                 raise Exception(f"Errore: Lo strumento è già stato prestato.")
