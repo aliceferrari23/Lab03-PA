@@ -1,6 +1,6 @@
 class Strumenti:
-    def __init__(self, codice, tipo, marca, anno_acquisto, valore):
-        self.codice = codice
+    def __init__(self, id_strumento, tipo, marca, anno_acquisto, valore):
+        self.codice = id_strumento
         self.tipo = tipo
         self.marca = marca
         self.anno = anno_acquisto
