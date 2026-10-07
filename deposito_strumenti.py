@@ -23,21 +23,23 @@ class DepositoStrumenti:
 
     def carica_file_strumenti(self, file_path):
         """Carica gli strumenti dal file"""
-        with open(file_path, mode='r', encoding='utf-8') as file:
-            reader = csv.reader(file)
-            for riga in reader:
-                if len(riga) == 5:
-                    id_str, tipo, marca, anno, val = riga
-                    strumento = Strumento(id_str, tipo, marca, anno, val)
-                    self.strumenti.append(strumento)
-                    try:
-                        num_id = int(id_str[1])
-                        if num_id >= self.strumento_id_succ:
-                            self.strumento_id_succ = num_id + 1
-                    except ValueError:
-                        pass
-                    except FileNotFoundError:
-                        return None
+        try:
+            with open(file_path, mode='r', encoding='utf-8') as file:
+                reader = csv.reader(file)
+                for riga in reader:
+                    if len(riga) == 5:
+                        id_str, tipo, marca, anno, val = riga
+                        strumento = Strumento(id_str, tipo, marca, anno, val)
+                        self.strumenti.append(strumento)
+                        try:
+                            num_id = int(id_str[1])
+                            if num_id >= self.strumento_id_succ:
+                                self.strumento_id_succ = num_id + 1
+                        except ValueError:
+                            pass
+                print("Processo andato a buon fine!")
+        except FileNotFoundError:
+            print("Errore: il file non è stato trovato.")
 
     def aggiungi_strumento(self, tipo, marca, anno_acquisto, valore):
         """Aggiunge uno strumento nel deposito: aggiunge solo nel sistema e non aggiorna il file"""
