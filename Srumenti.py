@@ -1,4 +1,4 @@
-class Strumenti
+class Strumenti:
     def __init__(self, codice, tipo, marca, anno, valore):
         self.codice = codice
         self.tipo = tipo
